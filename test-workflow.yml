@@ -1,0 +1,28 @@
+name: Export workflows to Dash0
+
+on:
+  workflow_run:
+    workflows:
+      # The name of the workflow(s) that triggers the export
+      - "CD"
+    types: [completed]
+
+jobs:
+  otel-export-dash0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # tag v4.2.2
+      - name: Export workflow to Dash0
+        uses: corentinmusard/otel-cicd-action@90a4ca6ee4911b65f8e305b7fd7fe70675690362 # tag v2.2.2
+        with:
+          otlpEndpoint: grpc://ingress.eu-west-1.aws.dash0.com:4317
+          # See https://www.dash0.com/documentation/dash0/get-started/sending-data-to-dash0
+          otlpHeaders: ${{ secrets.DASH0_OTLP_HEADERS }} # From an organisation secret
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          runId: ${{ github.event.workflow_run.id }}
+
+permissions:
+  contents: read # Required. To access the private repository
+  actions: read # Required. To read workflow runs
+  pull-requests: read # Optional. To read PR labels
+  checks: read # Optional. To read run annotations
