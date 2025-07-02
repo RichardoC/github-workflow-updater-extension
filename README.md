@@ -2,6 +2,8 @@
 
 A VS Code extension that automatically pins GitHub Actions to specific commits for enhanced security.
 
+> **⚠️ Experimental Project**: This extension is entirely experimental and was written by Claude Code. Use at your own discretion.
+
 ## Features
 
 - **Automatic Pinning**: Updates GitHub Actions to use commit hashes instead of version tags
@@ -61,8 +63,83 @@ This extension enhances security by:
 - Immutable references ensure consistent behavior
 - Following security best practices from StepSecurity
 
+## Development
+
+
+
+### Building the Extension
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Compile TypeScript**:
+   ```bash
+   npm run compile
+   ```
+   
+   Or watch for changes during development:
+   ```bash
+   npm run watch
+   ```
+
+### Testing the Extension
+
+1. **Open in your editor**: Open this project folder in VS Code or Cursor
+
+2. **Launch Extension Development Host**:
+   - Press `F5` or use the "Run and Debug" panel
+   - Select "Run Extension" configuration
+   - This opens a new window with the extension loaded (VS Code window if using VS Code, Cursor window if using Cursor)
+
+3. **Test the functionality**:
+   - In the Extension Development Host window, open a GitHub workflow file (`.yml` or `.yaml`)
+   - Click the sync button in the editor toolbar
+   - The extension should update actions to pinned versions
+
+4. **Refresh the Extension Development Host**:
+   After making code changes, you need to refresh the Extension Development Host:
+   - **Method 1**: Use Command Palette (`Cmd+Shift+P` on Mac, `Ctrl+Shift+P` on Windows/Linux)
+     - Type "Developer: Reload Window" and select it
+   - **Method 2**: Close and reopen the Extension Development Host window (press `F5` again)
+   - **Method 3**: Use the restart button in the Debug toolbar
+   - **Note**: In Cursor on macOS, the Extension Development Host works the same as VS Code
+
+### Running Tests
+
+```bash
+npm test
+```
+
+### Packaging for Distribution
+
+```bash
+npm install -g vsce
+vsce package
+```
+
+This creates a `.vsix` file that can be installed in VS Code or Cursor.
+
 ## Installation
 
-1. Install dependencies: `npm install`
-2. Compile: `npm run compile`
-3. Press F5 to run in Extension Development Host
+### From VS Code Marketplace
+*This extension is not yet published to the marketplace.*
+
+### Manual Installation
+
+1. **Download or build the extension**:
+   - Either download a `.vsix` file from releases
+   - Or build it yourself following the Development section above
+
+2. **Install the `.vsix` file**:
+   - Open VS Code or Cursor
+   - Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux)
+   - Type "Extensions: Install from VSIX..."
+   - Select the `.vsix` file
+   - Restart your editor
+
+3. **Configure GitHub token** (optional but recommended):
+   - Go to Settings (Code → Preferences → Settings)
+   - Search for "GitHub Workflow Updater"
+   - Set your GitHub Personal Access Token

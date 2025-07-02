@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # tag v4.2.2
+      - uses: actions/checkout@main # skip-pinning # show that skipped things are ignored
       - name: Export workflow to Dash0
         uses: corentinmusard/otel-cicd-action@90a4ca6ee4911b65f8e305b7fd7fe70675690362 # tag v2.2.2
         with:
