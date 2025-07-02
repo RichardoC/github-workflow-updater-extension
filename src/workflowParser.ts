@@ -4,6 +4,7 @@ export interface WorkflowAction {
     line: number;
     original: string;
     repository: string;
+    fullPath: string;
     currentRef: string;
     currentComment: string;
     hasSkipPinning: boolean;
@@ -22,6 +23,7 @@ export interface UpdateResult {
 
 export class WorkflowParser {
     private static readonly ACTION_REGEX = /^(\s*)(?:-\s+)?uses:\s+([^@\s]+)@([^\s#]+)(?:\s*#\s*(.*))?$/;
+    private static readonly REUSABLE_WORKFLOW_REGEX = /^([^\/]+\/[^\/]+)\/\.github\/workflows\/.*$/;
     private static readonly SKIP_PINNING_REGEX = /skip-pinning/i;
 
     static parseWorkflow(content: string): WorkflowAction[] {
@@ -33,13 +35,21 @@ export class WorkflowParser {
             const match = line.match(this.ACTION_REGEX);
             
             if (match) {
-                const [, indentation, repository, ref, comment = ''] = match;
+                const [, indentation, fullPath, ref, comment = ''] = match;
                 const hasSkipPinning = this.SKIP_PINNING_REGEX.test(comment);
+                
+                // Extract repository name for reusable workflows
+                let repository = fullPath.trim();
+                const reusableWorkflowMatch = fullPath.match(this.REUSABLE_WORKFLOW_REGEX);
+                if (reusableWorkflowMatch) {
+                    repository = reusableWorkflowMatch[1];
+                }
                 
                 actions.push({
                     line: i,
                     original: line,
-                    repository: repository.trim(),
+                    repository: repository,
+                    fullPath: fullPath.trim(),
                     currentRef: ref.trim(),
                     currentComment: comment.trim(),
                     hasSkipPinning,
@@ -66,9 +76,9 @@ export class WorkflowParser {
         const isDashFormat = action.original.includes('- uses:');
         
         if (isDashFormat) {
-            return `${action.indentation}- uses: ${action.repository}@${newCommit} # ${standardizedComment}`;
+            return `${action.indentation}- uses: ${action.fullPath}@${newCommit} # ${standardizedComment}`;
         } else {
-            return `${action.indentation}uses: ${action.repository}@${newCommit} # ${standardizedComment}`;
+            return `${action.indentation}uses: ${action.fullPath}@${newCommit} # ${standardizedComment}`;
         }
     }
 

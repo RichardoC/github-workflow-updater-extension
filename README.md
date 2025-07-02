@@ -143,3 +143,38 @@ This creates a `.vsix` file that can be installed in VS Code or Cursor.
    - Go to Settings (Code → Preferences → Settings)
    - Search for "GitHub Workflow Updater"
    - Set your GitHub Personal Access Token
+
+### GitHub Token Scopes
+
+For **Classic Personal Access Tokens**, you need:
+- `public_repo` - Access public repositories
+- `repo` - Full access to private repositories (if you need private repo access)
+
+For **Fine-grained Personal Access Tokens**, you need:
+- **Repository permissions**:
+  - `Contents: Read` - Read repository files and metadata
+  - `Metadata: Read` - Read repository metadata (required)
+  - `Actions: Read` - Read workflow files (if accessing Actions)
+
+**Note**: Fine-grained tokens must be configured for each organization/repository you want to access.
+
+## Troubleshooting
+
+### 404 Not Found Errors
+
+If you see errors like:
+```
+Failed to update tesslio/github-workflows/.github/workflows/production-deploy.yml: Error: GitHub API error: 404 - {"message":"Not Found"}
+```
+
+This typically means:
+
+1. **Reusable workflows**: For reusable workflows like `owner/repo/.github/workflows/workflow.yml@ref`, the extension now correctly extracts just the repository name (`owner/repo`) for API calls while preserving the full path in updates.
+
+2. **Private repository access**: If the repository is private, ensure your token has access:
+   - For fine-grained tokens: Add the repository to your token's repository access list
+   - For classic tokens: Use the `repo` scope instead of `public_repo`
+
+3. **Organization permissions**: For organization repositories with fine-grained tokens, the organization must approve your token
+
+4. **Repository name format**: Ensure actions use the correct format: `owner/repo@version` (not file paths)
