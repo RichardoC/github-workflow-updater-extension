@@ -171,10 +171,12 @@ This typically means:
 
 1. **Reusable workflows**: For reusable workflows like `owner/repo/.github/workflows/workflow.yml@ref`, the extension now correctly extracts just the repository name (`owner/repo`) for API calls while preserving the full path in updates.
 
-2. **Private repository access**: If the repository is private, ensure your token has access:
+2. **Sub-actions**: For GitHub Actions with sub-actions like `actions/cache/restore@ref` or `actions/cache/save@ref`, the extension now correctly extracts the base repository name (`actions/cache`) for API calls while preserving the full sub-action path in updates.
+
+3. **Private repository access**: If the repository is private, ensure your token has access:
    - For fine-grained tokens: Add the repository to your token's repository access list
    - For classic tokens: Use the `repo` scope instead of `public_repo`
 
-3. **Organization permissions**: For organization repositories with fine-grained tokens, the organization must approve your token
+4. **Organization permissions**: For organization repositories with fine-grained tokens, the organization must approve your token
 
-4. **Repository name format**: Ensure actions use the correct format: `owner/repo@version` (not file paths)
+5. **Repository name format**: Ensure actions use the correct format: `owner/repo@version` (not file paths)

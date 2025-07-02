@@ -212,9 +212,20 @@ function showUpdateDetails(updates: UpdateResult[], errors: string[]): void {
         '# GitHub Workflow Update Summary',
         '',
         '## Updated Actions',
-        ...updates.map(update => 
-            `- **${update.repository}**: ${update.oldVersion} → ${update.newVersion}`
-        ),
+        ...updates.map(update => {
+            const isTaggedVersion = update.newVersion.match(/^v?\d+\.\d+\.\d+/);
+            let link = '';
+            
+            if (isTaggedVersion) {
+                // Link to release notes
+                link = `https://github.com/${update.repository}/releases/tag/${update.newVersion}`;
+            } else {
+                // Link to commit
+                link = `https://github.com/${update.repository}/commit/${update.newCommit}`;
+            }
+            
+            return `- **${update.repository}**: ${update.oldVersion} → ${update.newVersion} ([View ${isTaggedVersion ? 'Release' : 'Commit'}](${link}))`;
+        }),
         '',
         ...(errors.length > 0 ? [
             '## Errors',

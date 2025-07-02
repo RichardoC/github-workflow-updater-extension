@@ -24,6 +24,7 @@ export interface UpdateResult {
 export class WorkflowParser {
     private static readonly ACTION_REGEX = /^(\s*)(?:-\s+)?uses:\s+([^@\s]+)@([^\s#]+)(?:\s*#\s*(.*))?$/;
     private static readonly REUSABLE_WORKFLOW_REGEX = /^([^\/]+\/[^\/]+)\/\.github\/workflows\/.*$/;
+    private static readonly SUB_ACTION_REGEX = /^([^\/]+\/[^\/]+)\/(.+)$/;
     private static readonly SKIP_PINNING_REGEX = /skip-pinning/i;
 
     static parseWorkflow(content: string): WorkflowAction[] {
@@ -38,11 +39,17 @@ export class WorkflowParser {
                 const [, indentation, fullPath, ref, comment = ''] = match;
                 const hasSkipPinning = this.SKIP_PINNING_REGEX.test(comment);
                 
-                // Extract repository name for reusable workflows
+                // Extract repository name for reusable workflows and sub-actions
                 let repository = fullPath.trim();
                 const reusableWorkflowMatch = fullPath.match(this.REUSABLE_WORKFLOW_REGEX);
+                const subActionMatch = fullPath.match(this.SUB_ACTION_REGEX);
+                
                 if (reusableWorkflowMatch) {
+                    // Reusable workflow: owner/repo/.github/workflows/workflow.yml -> owner/repo
                     repository = reusableWorkflowMatch[1];
+                } else if (subActionMatch && !fullPath.includes('.github/workflows')) {
+                    // Sub-action: owner/repo/sub-action -> owner/repo
+                    repository = subActionMatch[1];
                 }
                 
                 actions.push({
