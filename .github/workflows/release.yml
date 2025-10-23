@@ -33,7 +33,7 @@ jobs:
           echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_ENV
           echo "Bump to $RELEASE_VERSION"
       - name: Package Extension
-        run: vsce package $RELEASE_VERSION --no-git-tag-version --no-update-package-json -o "./releases/github-workflow-updater-$RELEASE_VERSION.vsix"
+        run: vsce package $RELEASE_VERSION --no-git-tag-version --no-update-package-json -o "github-workflow-updater-$RELEASE_VERSION.vsix"
       # - name: Publish to Visual Studio Marketplace
       #   run: vsce publish --packagePath "./releases/github-workflow-updater-$RELEASE_VERSION.vsix" --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }}
       - name: Publish to Open VSX Registry
@@ -42,4 +42,4 @@ jobs:
         with:
           preRelease: false
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
-          extensionFile: ./releases/codacy-${{ env.RELEASE_VERSION }}.vsix
+          extensionFile: "github-workflow-updater-$RELEASE_VERSION.vsix"

@@ -9,6 +9,10 @@
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "github:RichardoC/github-workflow-updater-extension"
+  },
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
