@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # VS Code extension packages
 *.vsix
+
+# Macos
+.DS_Store
