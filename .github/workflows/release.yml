@@ -30,7 +30,7 @@ jobs:
       - name: Package Extension
         run: vsce package ${{github.ref_name}} --no-git-tag-version --no-update-package-json -o "github-workflow-updater-${{github.ref_name}}.vsix"
       - name: Publish to Visual Studio Marketplace
-        run: vsce publish --packagePath "./releases/github-workflow-updater-${{github.ref_name}}.vsix" --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }}
+        run: vsce publish --packagePath "./github-workflow-updater-${{github.ref_name}}.vsix" --no-git-tag-version --no-update-package-json -p ${{ secrets.VSC_MKTP_PAT }}
       - name: Publish to Open VSX Registry
         continue-on-error: false
         uses: HaaLeo/publish-vscode-extension@ca5561daa085dee804bf9f37fe0165785a9b14db # tag v2.0.0
