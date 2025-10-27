@@ -3,6 +3,7 @@
   "displayName": "GitHub Workflow Updater",
   "description": "Pin GitHub Actions to specific commits for enhanced security",
   "version": "0.0.1",
+  "publisher": "github-workflow-updater",
   "engines": {
     "vscode": "^1.74.0"
   },
