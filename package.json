@@ -22,6 +22,11 @@
         "command": "github-workflow-updater.updateWorkflow",
         "title": "Update GitHub Workflow Actions",
         "icon": "$(sync)"
+      },
+      {
+        "command": "github-workflow-updater.configureToken",
+        "title": "Configure GitHub Token",
+        "category": "GitHub Workflow Updater"
       }
     ],
     "menus": {
@@ -36,12 +41,6 @@
     "configuration": {
       "title": "GitHub Workflow Updater",
       "properties": {
-        "github-workflow-updater.githubToken": {
-          "type": "string",
-          "default": "",
-          "description": "GitHub Personal Access Token for accessing private repositories",
-          "scope": "application"
-        },
         "github-workflow-updater.suppressTokenWarning": {
           "type": "boolean",
           "default": false,
