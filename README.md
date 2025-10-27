@@ -13,6 +13,21 @@ A VS Code extension that automatically pins GitHub Actions to specific commits f
 - **Comprehensive Updates**: Updates entire workflow file at once
 - **Error Handling**: Continues processing other actions if one fails
 
+## Installation
+
+### VSCode
+Run the following in the edit prompt (ctrl+shift+p)
+
+```ext install github-workflow-updater.github-workflow-updater```
+
+### Cursor
+Click <cursor:extension/github-workflow-updater.github-workflow-updater>
+
+### Available from the following registries
+[open-vsx](https://open-vsx.org/extension/github-workflow-updater/github-workflow-updater)
+[Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=github-workflow-updater.github-workflow-updater)
+
+
 ## Usage
 
 1. Open a GitHub workflow file (`.yml` or `.yaml`)
